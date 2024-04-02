@@ -21,4 +21,5 @@ jobs:
         mkdir -p ~/.ssh/
         echo "$KEY" > ~/.ssh/id_ecdsa
         chmod 600 ~/.ssh/id_ecdsa
+        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
         rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary/
