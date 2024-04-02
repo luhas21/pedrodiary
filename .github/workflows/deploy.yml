@@ -1,25 +1,24 @@
-name: Deploy to Production
+name: Deploy to VPS
+
 on:
   push:
     branches:
-      - main # Větev, při jejíž změně se spustí akce
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Deploy to Server
-      env:
-        HOST: ${{ secrets.HOST }} # Hostname produkčního serveru
-        USERNAME: ${{ secrets.USERNAME }} # Uživatelské jméno na serveru    
-        KEY: ${{ secrets.SERVER_SSH_KEY }} # Privátní SSH klíč pro připojení
-        
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$KEY" > ~/.ssh/id_ecdsa
-        chmod 600 ~/.ssh/id_ecdsa
-        
-        scp -r * $USERNAME@$HOST:/var/www/html/wp-content/themes/pedrodiary/
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to VPS
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        source: "."  # Lokální složka ve které se nachází kód
+        target: "/var/www/html/wp-content/themes/pedrodiary/"  # Cílová složka na VPS
