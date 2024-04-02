@@ -20,4 +20,4 @@ jobs:
         mkdir -p ~/.ssh/
         echo "$KEY" > ~/.ssh/id_ecdsa
         chmod 600 ~/.ssh/id_ecdsa
-        rsync -avz --delete /path/to/source/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
+        rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
