@@ -1,0 +1,143 @@
+
+.hidden {
+    display: none;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0 auto;
+    max-width: 500px;
+    color:#fff;
+    background-color: #000;
+}
+
+main {
+    margin: 10px 0;
+}
+
+.header-wrapper {
+    display: grid;
+    grid-template-columns: 85% 15%;
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+
+.record-link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.record-link:hover .record-wrapper {
+    background-color: #222;
+}
+
+.record-wrapper h2,
+.record-wrapper p,
+.record-hr {
+    margin: 0;
+}
+
+.record-wrapper,
+.record-wrapper p {
+    padding: 20px;
+}
+
+.search-form {
+    margin-bottom: 0px !important;
+}
+
+.search-field {
+    width: 80%;
+    height: 42px;
+    background: #777;
+    color: #fff;
+    padding-left: 10px;
+}
+
+::placeholder {
+    color: #fff;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 10px;
+}
+
+.btn button,
+.search-submit,
+.header-wrapper a,
+.btn-edit,
+.page-numbers,
+.nav-links a {
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn button,
+.search-submit {
+    padding: 10px;
+}
+
+.search-submit,
+.header-wrapper a {
+    width: 40px;
+    height: 40px;
+}
+
+.header-wrapper a {
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    padding-top: 10px;
+    height: 29px;
+}
+
+.btn button:hover,
+.search-submit:hover,
+.header-wrapper a:hover,
+.btn-edit:hover,
+.page-numbers:hover,
+.nav-links a:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.btn-edit {
+    font-size: 16px;
+    position: relative;
+    float: right;
+    right: 7px;
+    top: 7px;
+    width: 12px;
+    height: 16px;
+    padding: 12px 14px;
+}
+
+.main-wrapper{
+    width: 100%;
+}
+
+.nav-links,
+.paginate {
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.page-numbers,
+.nav-links a {
+    padding: 5px 10px;
+}
+.featured-image img {
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    margin: 20px 0;
+}
