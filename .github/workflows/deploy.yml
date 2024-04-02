@@ -7,19 +7,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v3
-
-    - name: Deploy to Production
+    
+    - name: Deploy to Server
       env:
-        HOST: ${{ secrets.HOST }}
-        USER: ${{ secrets.USER }}
-        KEY: ${{ secrets.SERVER_SSH_KEY }}
+        HOST: ${{ secrets.HOST }} # Hostname produkčního serveru
+        USERNAME: ${{ secrets.USERNAME }} # Uživatelské jméno na serveru    
+        KEY: ${{ secrets.SERVER_SSH_KEY }} # Privátní SSH klíč pro připojení
+        
       run: |
-        set -x
         mkdir -p ~/.ssh/
         echo "$KEY" > ~/.ssh/id_ecdsa
         chmod 600 ~/.ssh/id_ecdsa
-        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
-        rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary/
+        
+        scp -r * $USERNAME@$HOST:/var/www/html/wp-content/themes/pedrodiary/
