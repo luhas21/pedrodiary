@@ -1,23 +1,23 @@
-name: Deploy to VPS
-
+name: Deploy to Production
 on:
   push:
     branches:
-      - main
+      - main # Větev, při jejíž změně se spustí akce
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - name: Deploy to VPS
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        source: "."  # Lokální složka ve které se nachází kód
-        target: "/var/www/html/wp-content/themes/pedrodiary/"  # Cílová složka na VPS
+    - name: Deploy to Production
+      env:
+        HOST: ${{ secrets.HOST }}
+        USER: ${{ secrets.USER }}
+        KEY: ${{ secrets.SERVER_SSH_KEY }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$KEY" > ~/.ssh/id_ecdsa
+        chmod 600 ~/.ssh/id_ecdsa
+        rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary/
