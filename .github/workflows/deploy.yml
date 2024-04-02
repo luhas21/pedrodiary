@@ -16,8 +16,8 @@ jobs:
     - name: Deploy to VPS
       uses: appleboy/scp-action@master
       with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
         source: "."  # Lokální složka ve které se nachází kód
         target: "/var/www/html/wp-content/themes/pedrodiary/"  # Cílová složka na VPS
