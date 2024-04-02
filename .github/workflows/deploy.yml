@@ -17,6 +17,7 @@ jobs:
         USER: ${{ secrets.USER }}
         KEY: ${{ secrets.SERVER_SSH_KEY }}
       run: |
+        set -x
         mkdir -p ~/.ssh/
         echo "$KEY" > ~/.ssh/id_ecdsa
         chmod 600 ~/.ssh/id_ecdsa
