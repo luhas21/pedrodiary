@@ -17,6 +17,6 @@ jobs:
         KEY: ${{ secrets.SERVER_SSH_KEY }}
       run: |
         mkdir -p ~/.ssh/
-        echo "$KEY" > ~/.ssh/id_rsa_deploy
-        chmod 600 ~/.ssh/id_rsa_deploy
+        echo "$KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary/
