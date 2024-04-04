@@ -10,13 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Verify SSH Key
-      run: |
-        cat ~/.ssh/id_rsa
-        ls -l ~/.ssh/id_rsa
-      env:
-        KEY: ${{ secrets.SERVER_SSH_KEY }}
-
     - name: Deploy to Production VPS
       env:
         HOST: ${{ secrets.HOST }}
