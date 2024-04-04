@@ -19,4 +19,4 @@ jobs:
         mkdir -p ~/.ssh/
         echo "$KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        rsync -avz --delete $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary/
+        rsync -av --delete -e "ssh -i ~/.ssh/id_rsa" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
