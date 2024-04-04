@@ -12,6 +12,12 @@
                     <div class="record-wrapper">
                         <h2><?php echo get_field('mood'); ?> <?php the_title(); ?></h2>
                         <?php the_content(); ?>
+                        <?php
+                        if (has_post_thumbnail()) { ?>
+                            <div class="featured-image">
+                                <?php the_post_thumbnail(); ?>
+                            </div>
+                        <?php } ?>
                     </div>
                 </a>
             </div>
