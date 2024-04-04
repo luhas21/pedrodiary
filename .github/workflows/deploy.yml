@@ -3,7 +3,7 @@ name: Deploy to Production VPS
 on:
   push:
     branches:
-      - main # Větev, při jejíž změně se spustí akce
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
