@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Deploy to Production VPS
       env:
@@ -21,4 +21,3 @@ jobs:
         echo "" >> ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         rsync -av --delete -e "ssh -i ~/.ssh/id_rsa" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
-        
