@@ -15,12 +15,16 @@ jobs:
       - name: Set up OpenVPN config
         run: echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
 
+      
       - name: Connect to OpenVPN
         run: |
           sudo apt-get update
           sudo apt-get install -y openvpn
           echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
-          echo "${{ secrets.VPN_PASSWORD }}" | sudo openvpn --config ~/vpn-config.ovpn --auth-user-pass -
+          echo "${{ secrets.VPN_PASSWORD }}" > ~/vpn-password.txt
+          sudo openvpn --config ~/vpn-config.ovpn --auth-user-pass ~/vpn-password.txt
+          rm ~/vpn-password.txt
+
       - name: Deploy to Production VPS
         env:
           HOST: ${{ secrets.HOST }}
