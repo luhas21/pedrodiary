@@ -19,17 +19,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openconnect
-      
+
       - name: Connect to VPN
-        env:
-          VPN_HOST: ${{ secrets.VPN_HOST }}
-          VPN_USER: ${{ secrets.VPN_USERNAME }}
-          VPN_PASSWORD: ${{ secrets.VPN_PASSWORD }}
         run: |
-          # Konfigurační soubor pro openconnect
-          echo "User=$VPN_USER" > ~/vpn-config.txt
-          echo "Password=$VPN_PASSWORD" >> ~/vpn-config.txt
-          sudo openconnect --config=~/vpn-config.txt $VPN_HOST
+          echo "${{ secrets.VPN_PASSWORD }}" | sudo openconnect --config ~/vpn-config.ovpn
 
       - name: Deploy to Production VPS
         env:
