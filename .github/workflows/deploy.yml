@@ -15,15 +15,21 @@ jobs:
       - name: Set up OpenVPN config
         run: echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
 
-      
-      - name: Connect to OpenVPN
+      - name: Install OpenConnect
         run: |
           sudo apt-get update
-          sudo apt-get install -y openvpn
-          echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
-          echo "${{ secrets.VPN_PASSWORD }}" > ~/vpn-password.txt
-          sudo openvpn --config ~/vpn-config.ovpn --auth-user-pass ~/vpn-password.txt
-          rm ~/vpn-password.txt
+          sudo apt-get install -y openconnect
+      
+      - name: Connect to VPN
+        env:
+          VPN_HOST: ${{ secrets.VPN_HOST }}
+          VPN_USER: ${{ secrets.VPN_USERNAME }}
+          VPN_PASSWORD: ${{ secrets.VPN_PASSWORD }}
+        run: |
+          # Konfigurační soubor pro openconnect
+          echo "User=$VPN_USER" > ~/vpn-config.txt
+          echo "Password=$VPN_PASSWORD" >> ~/vpn-config.txt
+          sudo openconnect --config=~/vpn-config.txt $VPN_HOST
 
       - name: Deploy to Production VPS
         env:
@@ -37,4 +43,4 @@ jobs:
           rsync -av --delete --exclude='.git' --exclude='.github' --exclude='.gitignore' -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
 
       - name: Disconnect from OpenVPN
-        run: sudo killall openvpn
+        run: sudo killall openconnect
