@@ -19,8 +19,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openvpn
-          sudo openvpn --config ~/vpn-config.ovpn
-
+          echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
+          sudo openvpn --config ~/vpn-config.ovpn --auth-user-pass <(echo "${{ secrets.VPN_PASSWORD }}")
       - name: Deploy to Production VPS
         env:
           HOST: ${{ secrets.HOST }}
