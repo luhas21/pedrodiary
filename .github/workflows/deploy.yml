@@ -12,18 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up OpenVPN config
-        run: echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
-
-      - name: Install OpenConnect
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openconnect
-
-      - name: Connect to VPN
-        run: |
-          echo "${{ secrets.VPN_PASSWORD }}" | sudo openconnect --config ~/vpn-config.ovpn
-
       - name: Deploy to Production VPS
         env:
           HOST: ${{ secrets.HOST }}
@@ -34,6 +22,3 @@ jobs:
           echo -n "$KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           rsync -av --delete --exclude='.git' --exclude='.github' --exclude='.gitignore' -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
-
-      - name: Disconnect from OpenVPN
-        run: sudo killall openconnect
