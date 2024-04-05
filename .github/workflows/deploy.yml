@@ -10,28 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up OpenVPN config
-      run: echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
+      - name: Set up OpenVPN config
+        run: echo "${{ secrets.OPENVPN_CONFIG }}" > ~/vpn-config.ovpn
 
-    - name: Connect to OpenVPN
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y openvpn
-        sudo openvpn --config ~/vpn-config.ovpn
+      - name: Connect to OpenVPN
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+          sudo openvpn --config ~/vpn-config.ovpn
 
-    - name: Deploy to Production VPS
-      needs: Connect to OpenVPN
-      env:
-        HOST: ${{ secrets.HOST }}
-        USER: ${{ secrets.USER }}
-        KEY: ${{ secrets.SERVER_SSH_KEY }}
-      run: |
-        mkdir -p ~/.ssh/
-        echo -n "$KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        rsync -av --delete --exclude='.git' --exclude='.github' --exclude='.gitignore' -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
+      - name: Deploy to Production VPS
+        env:
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.USER }}
+          KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo -n "$KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          rsync -av --delete --exclude='.git' --exclude='.github' --exclude='.gitignore' -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" $GITHUB_WORKSPACE/ $USER@$HOST:/var/www/html/wp-content/themes/pedrodiary
 
-    - name: Disconnect from OpenVPN
-      run: sudo killall openvpn
+      - name: Disconnect from OpenVPN
+        run: sudo killall openvpn
